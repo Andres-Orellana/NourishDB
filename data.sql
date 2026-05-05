@@ -1,0 +1,110 @@
+BEGIN TRANSACTION;
+
+CREATE TABLE IF NOT EXISTS Inventory (
+    ItemID         INTEGER PRIMARY KEY,
+    ItemType       TEXT,
+    ItemQuantity   INTEGER,
+    ExpirationDate TEXT
+);
+
+CREATE TABLE IF NOT EXISTS Food (
+    Date                 INTEGER PRIMARY KEY,
+    TotalFoodStart_lbs   INTEGER,
+    TotalFoodEnd_lbs     INTEGER,
+    DailyTotalAvg        FLOAT,
+    ItemID               INTEGER,
+    FOREIGN KEY (ItemID)
+        REFERENCES Inventory(ItemID)
+);
+
+CREATE TABLE IF NOT EXISTS Family (
+    FamilyID                INTEGER PRIMARY KEY,
+    ZipCode                 INTEGER,
+    NumAdults               INTEGER,
+    NumOfKids               INTEGER,
+    NumSeniors              INTEGER,
+    Eligibility_TFAP        BOOLEAN,
+    AnnualCertificationDate INTEGER,
+    Phone                   TEXT,
+    Email                   TEXT,
+    Language                TEXT,
+    DietaryReq              TEXT,
+    IsDaily                 BOOLEAN
+);
+
+CREATE TABLE IF NOT EXISTS DailyInfo (
+    Date                 INTEGER PRIMARY KEY,
+    NumOfVisits          INTEGER,
+    TotalWeightTaken_lbs FLOAT
+);
+
+CREATE TABLE IF NOT EXISTS Visit (
+    VisitID         INTEGER PRIMARY KEY,
+    FamilyID        INTEGER,
+    Date            INTEGER,
+    TotalWeight_lbs FLOAT,
+    Proxy           BOOLEAN,
+    FOREIGN KEY (FamilyID)
+        REFERENCES Family(FamilyID),
+    FOREIGN KEY (Date)
+        REFERENCES DailyInfo(Date)
+);
+
+CREATE TABLE IF NOT EXISTS Source (
+    SourceID   INTEGER PRIMARY KEY,
+    SourceName TEXT,
+    IsRescue   BOOLEAN
+);
+
+CREATE TABLE IF NOT EXISTS FoodRescueEntry (
+    RescueID INTEGER PRIMARY KEY,
+    SourceID INTEGER,
+    Date     INTEGER,
+    Category TEXT,
+    Weight   FLOAT,
+    ItemID   INTEGER,
+    FOREIGN KEY (SourceID)
+        REFERENCES Source(SourceID),
+    FOREIGN KEY (ItemID)
+        REFERENCES Inventory(ItemID)
+);
+
+CREATE TABLE IF NOT EXISTS Volunteers (
+    VolID INTEGER PRIMARY KEY,
+    Name  TEXT,
+    Hours INTEGER,
+    Phone TEXT,
+    Email TEXT
+);
+
+CREATE TABLE IF NOT EXISTS VisitVolunteers (
+    VolID   INTEGER,
+    VisitID INTEGER,
+    PRIMARY KEY (VolID, VisitID),
+    FOREIGN KEY (VolID)
+        REFERENCES Volunteers(VolID),
+    FOREIGN KEY (VisitID)
+        REFERENCES Visit(VisitID)
+);
+
+CREATE TABLE IF NOT EXISTS Proxy (
+    ProxyID   INTEGER PRIMARY KEY,
+    FamilyID  INTEGER,
+    ProxyName TEXT,
+    FOREIGN KEY (FamilyID)
+        REFERENCES Family(FamilyID)
+);
+
+CREATE TABLE IF NOT EXISTS NonFood (
+    ItemID             INTEGER PRIMARY KEY,
+    ItemQuality        INTEGER,
+    Date               INTEGER,
+    TotalQuantityStart INTEGER,
+    TotalQuantityEnd   INTEGER,
+    DailyTotalAvg      FLOAT,
+    FOREIGN KEY (ItemID)
+        REFERENCES Inventory(ItemID)
+);
+
+COMMIT TRANSACTION;
+

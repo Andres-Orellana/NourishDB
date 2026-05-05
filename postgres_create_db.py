@@ -13,7 +13,7 @@ with open("pw.txt", "r") as f:
 conn = psycopg.connect(f"postgresql://postgres:{password}@db.jsojlyeytbbloivlappf.supabase.co:5432/postgres")
 
 # read the DDL file
-with open("airline_pg.sql", "r") as f:
+with open("data.sql", "r") as f:
     ddl = f.read()
 
 # execute the DDL
