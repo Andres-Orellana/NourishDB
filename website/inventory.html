@@ -22,12 +22,10 @@
 
             <!-- Source -->
             <label for="source">Source Name</label>
-            <input
-                type="text"
-                id="source"
-                name="source"
-                placeholder="Enter source name"
-            />
+
+            <select id="source" name="source">
+            <option value="">Select Source</option>
+            </select>   
 
             <!-- Item Name -->
             <label for="item-name">Item Name</label>
@@ -49,7 +47,16 @@
                 placeholder="Enter quantity"
                 required
             />
-
+            <!-- weight -->
+             <label for="weight">Weight</label>
+            <input
+                type="number"
+                id="weight"
+                name="weight"
+                min="1"
+                placeholder="Enter Total Weight"
+                required
+            />
             <!-- Expiration Date -->
             <label for="expiration-date">Expiration Date</label>
             <input
@@ -70,7 +77,17 @@
                     Is this food?
                 </label>
             </div>
-
+            <!-- is Rescue -->
+            <div class="checkbox-group">
+                <input
+                    type="checkbox"
+                    id="is-Resuce"
+                    name="is-Resuce"
+                />
+                <label for="is-Rescue">
+                    Was this item donated?
+                </label>
+            </div>
             <!-- Submit -->
             <button type="submit">
                 Submit
