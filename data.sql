@@ -7,15 +7,6 @@ CREATE TABLE IF NOT EXISTS Inventory (
     ExpirationDate TEXT
 );
 
-CREATE TABLE IF NOT EXISTS Food (
-    Date                 INTEGER PRIMARY KEY,
-    TotalFoodStart_lbs   INTEGER,
-    TotalFoodEnd_lbs     INTEGER,
-    DailyTotalAvg        FLOAT,
-    ItemID               INTEGER,
-    FOREIGN KEY (ItemID)
-        REFERENCES Inventory(ItemID)
-);
 
 CREATE TABLE IF NOT EXISTS Family (
     FamilyID                INTEGER PRIMARY KEY,
@@ -32,11 +23,6 @@ CREATE TABLE IF NOT EXISTS Family (
     IsDaily                 BOOLEAN
 );
 
-CREATE TABLE IF NOT EXISTS DailyInfo (
-    Date                 INTEGER PRIMARY KEY,
-    NumOfVisits          INTEGER,
-    TotalWeightTaken_lbs FLOAT
-);
 
 CREATE TABLE IF NOT EXISTS Visit (
     VisitID         INTEGER PRIMARY KEY,
@@ -93,16 +79,6 @@ CREATE TABLE IF NOT EXISTS Proxy (
         REFERENCES Family(FamilyID)
 );
 
-CREATE TABLE IF NOT EXISTS NonFood (
-    ItemID             INTEGER PRIMARY KEY,
-    ItemQuality        INTEGER,
-    Date               INTEGER,
-    TotalQuantityStart INTEGER,
-    TotalQuantityEnd   INTEGER,
-    DailyTotalAvg      FLOAT,
-    FOREIGN KEY (ItemID)
-        REFERENCES Inventory(ItemID)
-);
 
 COMMIT TRANSACTION;
 

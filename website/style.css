@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 40px;
+    background: #f7f7f7;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+select {
+    padding: 8px;
+    margin-bottom: 20px;
+}
+
+.tabs {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.tabs button {
+    padding: 10px 16px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.tab {
+    display: none;
+    background: white;
+    padding: 20px;
+    max-width: 500px;
+    border-radius: 8px;
+}
+
+.tab.active {
+    display: block;
+}
+
+input {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px 14px;
+    cursor: pointer;
+}
+
+label {
+    display: block;
+    margin: 12px 0;
+}
+
+#message {
+    margin-top: 20px;
+    font-weight: bold;
+}

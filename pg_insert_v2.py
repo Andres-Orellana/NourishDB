@@ -8,7 +8,7 @@ with open("pw.txt", "r") as f:
     password = f.read().strip()
 
 # connect to the database
-conn = psycopg.connect(f"postgresql://neondb_owner:{password}@ep-frosty-field-amqo58jo.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require")
+conn = psycopg.connect(f"postgresql://postgres:{password}@db.jsojlyeytbbloivlappf.supabase.co:5432/postgres")
 
 # make a "cursor" which is an object to 
 # help us run SQL and fetch data
