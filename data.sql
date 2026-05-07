@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS Inventory (
     ExpirationDate TEXT
 );
 
-
 CREATE TABLE IF NOT EXISTS Family (
     FamilyID                INTEGER PRIMARY KEY,
     ZipCode                 INTEGER,
@@ -22,7 +21,6 @@ CREATE TABLE IF NOT EXISTS Family (
     DietaryReq              TEXT,
     IsDaily                 BOOLEAN
 );
-
 
 CREATE TABLE IF NOT EXISTS Visit (
     VisitID         INTEGER PRIMARY KEY,

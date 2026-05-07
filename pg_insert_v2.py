@@ -1,6 +1,6 @@
 # in this file we will use the most basic (and potentially unsafe)
 # way to insert data into a db
-
+from flask import Flask
 import psycopg
 
 # read password from a file (pw.txt)
