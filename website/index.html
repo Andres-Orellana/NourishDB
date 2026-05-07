@@ -5,78 +5,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <h1 id="siteTitle">NourishDB</h1>
-
-    <label for="languageSelect">Choose Language:</label>
-    <select id="languageSelect">
-        <option value="en">English</option>
-        <option value="es">Español</option>
-        <option value="so">Somali</option>
-    </select>
-
-    <div class="tabs">
-        <button id="signupTabBtn" onclick="showTab('signup')">Family Sign Up</button>
-        <button id="proxyTabBtn" onclick="showTab('proxy')">Add Proxy</button>
-        <button id="signinTabBtn" onclick="showTab('signin')">Daily Sign In</button>
+    <div class="landing">
+        <h1>NourishDB</h1>
+        <p class="landing-subtitle">Food Pantry Management System</p>
+        <div class="portal-buttons">
+            <a href="family.html" class="portal-btn portal-btn-family">
+                <span class="portal-label">Family Portal</span>
+                <span class="portal-desc">Sign up, manage proxy, daily check-in</span>
+            </a>
+            <a href="volunteer.html" class="portal-btn portal-btn-volunteer">
+                <span class="portal-label">Volunteer Portal</span>
+                <span class="portal-desc">Sign in and track your hours</span>
+            </a>
+        </div>
     </div>
-
-    <section id="signup" class="tab">
-        <h2 id="signupTitle">Family Sign Up</h2>
-
-        <form id="familyForm">
-            <input id="zipcodeInput" name="ZipCode" placeholder="Zip Code" required>
-            <input id="adultsInput" name="NumAdults" placeholder="Number of Adults" type="number" required>
-            <input id="kidsInput" name="NumOfKids" placeholder="Number of Kids" type="number" required>
-            <input id="seniorsInput" name="NumSeniors" placeholder="Number of Seniors" type="number" required>
-            <input id="phoneInput" name="Phone" placeholder="Phone">
-            <input id="emailInput" name="Email" placeholder="Email" type="email">
-            <input id="languageInput" name="Language" placeholder="Language">
-            <input id="dietInput" name="DietaryReq" placeholder="Dietary Requirements">
-
-            <label id="tfapLabel">
-                TFAP Eligible?
-                <input name="Eligibility_TFAP" type="checkbox">
-            </label>
-
-            <label id="dailyLabel">
-                Daily Visitor?
-                <input name="IsDaily" type="checkbox">
-            </label>
-
-            <button id="signupSubmitBtn" type="submit">Sign Up Family</button>
-        </form>
-    </section>
-
-    <section id="proxy" class="tab">
-        <h2 id="proxyTitle">Add Proxy</h2>
-
-        <form id="proxyForm">
-            <input id="proxyFamilyInput" name="FamilyID" placeholder="Family ID" type="number" required>
-            <input id="proxyNameInput" name="ProxyName" placeholder="Proxy Name" required>
-            <button id="proxySubmitBtn" type="submit">Add Proxy</button>
-        </form>
-    </section>
-
-    <section id="signin" class="tab">
-        <h2 id="signinTitle">Daily Sign In</h2>
-
-        <form id="visitForm">
-            <input id="visitFamilyInput" name="FamilyID" placeholder="Family ID" type="number" required>
-            <input id="dateInput" name="Date" placeholder="Date ex: 20260506" type="number" required>
-            <input id="weightInput" name="TotalWeight_lbs" placeholder="Total Weight lbs" type="number" step="0.01">
-
-            <label id="proxyPickupLabel">
-                Proxy Pickup?
-                <input name="Proxy" type="checkbox">
-            </label>
-
-            <button id="visitSubmitBtn" type="submit">Submit Daily Visit</button>
-        </form>
-    </section>
-
-    <p id="message"></p>
-
-    <script type="module" src="app.js"></script>
 </body>
 </html>

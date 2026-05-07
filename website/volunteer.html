@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NourishDB – Volunteer Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="volunteer-page">
+
+    <div class="page-header">
+        <a href="index.html" class="back-btn">&larr; Back</a>
+        <h1>NourishDB – Volunteer Portal</h1>
+    </div>
+
+    <!-- AUTH SECTION (shown before sign-in) -->
+    <div id="authSection" class="page-content">
+        <div class="tabs">
+            <button onclick="showAuthTab('signinTab')">Sign In</button>
+            <button onclick="showAuthTab('signupTab')">Sign Up</button>
+        </div>
+
+        <section id="signinTab" class="tab">
+            <h2>Volunteer Sign In</h2>
+            <p style="color:#666; margin-top:0;">Enter your Volunteer ID to access your dashboard.</p>
+            <form id="volSigninForm">
+                <input name="VolID" placeholder="Volunteer ID (6-digit number)" type="number" required>
+                <button type="submit">Sign In</button>
+            </form>
+        </section>
+
+        <section id="signupTab" class="tab">
+            <h2>Volunteer Sign Up</h2>
+            <form id="volSignupForm">
+                <input name="Name" placeholder="Full Name" type="text" required>
+                <input name="Phone" placeholder="Phone" type="text">
+                <input name="Email" placeholder="Email" type="email">
+                <button type="submit">Create Account</button>
+            </form>
+        </section>
+
+        <p id="message"></p>
+    </div>
+
+    <!-- DASHBOARD SECTION (shown after sign-in) -->
+    <div id="dashboardSection" style="display:none;">
+        <div class="vol-greeting">
+            <div>
+                <p>Welcome back, <strong id="volName"></strong></p>
+                <span class="vol-id-badge">Volunteer ID: <span id="volIDDisplay"></span></span>
+            </div>
+            <button class="signout-btn" onclick="signOut()">Sign Out</button>
+        </div>
+
+        <div style="padding: 24px 32px 0 32px;">
+            <div class="stats-card">
+                <h2>Total Hours Volunteered</h2>
+                <div class="hours-number" id="totalHoursDisplay">0</div>
+                <div class="hours-label">hours</div>
+            </div>
+
+            <div class="log-section">
+                <h3>Log Hours</h3>
+                <form id="hoursForm" class="add-hours-form">
+                    <input name="WorkDate" type="date" required>
+                    <input name="Hours" placeholder="Hours worked (e.g. 3.5)" type="number" step="0.25" min="0.25" required>
+                    <button type="submit">Add Hours</button>
+                </form>
+                <p id="message"></p>
+            </div>
+
+            <div class="log-section">
+                <h3>Recent Hours Log</h3>
+                <table class="hours-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hoursLogBody">
+                        <tr><td colspan="2" style="color:#aaa; text-align:center;">No hours logged yet.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="volunteer.js"></script>
+</body>
+</html>
