@@ -61,7 +61,7 @@ document.getElementById("volSignupForm").addEventListener("submit", async (e) =>
     const volunteerData = {
         volid: volID,
         name: form.Name.value,
-        totalHours: 0,
+        totalhours: 0,
         phone: form.Phone.value,
         email: form.Email.value
     };
@@ -107,11 +107,11 @@ document.getElementById("hoursForm").addEventListener("submit", async (e) => {
         return;
     }
 
-    const newTotal = (currentVolunteer.totalHours || 0) + hours;
+    const newTotal = (currentVolunteer.totalhours || 0) + hours;
 
     const { data: updatedVol, error: updateError } = await supabase
         .from("volunteers")
-        .update({ totalHours: newTotal })
+        .update({ totalhours: newTotal })
         .eq("volid", currentVolunteer.volid)
         .select()
         .single();
@@ -121,7 +121,7 @@ document.getElementById("hoursForm").addEventListener("submit", async (e) => {
         document.getElementById("message").className = "error";
     } else {
         currentVolunteer = updatedVol;
-        document.getElementById("totalHoursDisplay").textContent = currentVolunteer.totalHours;
+        document.getElementById("totalhoursDisplay").textContent = currentVolunteer.totalhours;
         document.getElementById("message").textContent = "Hours added successfully!";
         document.getElementById("message").className = "success";
         form.reset();
@@ -163,7 +163,7 @@ function showDashboard() {
     dashboardSection.style.display = "block";
     document.getElementById("volName").textContent = currentVolunteer.name;
     document.getElementById("volIDDisplay").textContent = currentVolunteer.volid;
-    document.getElementById("totalHoursDisplay").textContent = currentVolunteer.totalHours || 0;
+    document.getElementById("totalhoursDisplay").textContent = currentVolunteer.totalhours || 0;
     loadHoursLog();
 }
 
