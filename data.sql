@@ -72,19 +72,17 @@ CREATE TABLE IF NOT EXISTS FoodRescueEntry (
 CREATE TABLE IF NOT EXISTS Volunteers (
     VolID INTEGER PRIMARY KEY,
     Name  TEXT,
-    Hours INTEGER,
+    totalHours INTEGER,
     Phone TEXT,
     Email TEXT
 );
 
-CREATE TABLE IF NOT EXISTS VisitVolunteers (
-    VolID   INTEGER,
-    VisitID INTEGER,
-    PRIMARY KEY (VolID, VisitID),
-    FOREIGN KEY (VolID)
-        REFERENCES Volunteers(VolID),
-    FOREIGN KEY (VisitID)
-        REFERENCES Visit(VisitID)
+CREATE TABLE IF NOT EXISTS VolunteerWork (
+    LogID    INTEGER PRIMARY KEY,
+    VolID    INTEGER,
+    WorkDate TEXT,    
+    Hours    FLOAT,  
+    FOREIGN KEY (VolID) REFERENCES Volunteers(VolID)
 );
 
 CREATE TABLE IF NOT EXISTS Proxy (
