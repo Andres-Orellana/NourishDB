@@ -4,7 +4,7 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 // SUPABASE INFO
 // =========================
 const SUPABASE_URL = "https://jsojlyeytbbloivlappf.supabase.co";
-const SUPABASE_ANON_KEY = "PASTE_YOUR_ANON_KEY_HERE";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impzb2pseWV5dGJibG9pdmxhcHBmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2NjA0NzIsImV4cCI6MjA5MzIzNjQ3Mn0.zUGdfz12ZobVxDNEcbL_JXt85_lIecVVAI-AE-ILBNU";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -340,3 +340,42 @@ document.getElementById("visitForm").addEventListener("submit", async (e) => {
         form.reset();
     }
 });
+
+const inventoryForm = document.getElementById("inventoryForm");
+
+if (inventoryForm) {
+    console.log("Inventory form found");
+
+    inventoryForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        console.log("Inventory form submitted");
+
+        const form = e.target;
+
+        const generatedItemID = Math.floor(100000 + Math.random() * 900000);
+
+        const inventoryData = {
+            itemid: generatedItemID,
+            itemtype: form["item-name"].value,
+            itemquantity: Number(form.quantity.value),
+            expirationdate: form["expiration-date"].value
+        };
+
+        console.log("Sending inventory data:", inventoryData);
+
+        const { data, error } = await supabase
+            .from("inventory")
+            .insert([inventoryData])
+            .select();
+
+        if (error) {
+            console.error("Inventory error:", error);
+            alert("Inventory error: " + error.message);
+        } else {
+            console.log("Inserted inventory row:", data);
+            alert("Inventory item added successfully! Item ID: " + data[0].itemid);
+            form.reset();
+        }
+    });
+}
