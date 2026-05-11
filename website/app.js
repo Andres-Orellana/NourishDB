@@ -26,7 +26,6 @@ const translations = {
         seniorsInput: "Number of Seniors",
         phoneInput: "Phone",
         emailInput: "Email",
-        languageInput: "Language",
         dietInput: "Dietary Requirements",
         tfapLabel: "TFAP Eligible?",
         dailyLabel: "Daily Visitor?",
@@ -69,7 +68,6 @@ const translations = {
         seniorsInput: "Número de Personas Mayores",
         phoneInput: "Teléfono",
         emailInput: "Correo Electrónico",
-        languageInput: "Idioma",
         dietInput: "Requisitos Dietéticos",
         tfapLabel: "¿Elegible para TFAP?",
         dailyLabel: "¿Visitante Diario?",
@@ -112,7 +110,6 @@ const translations = {
         seniorsInput: "Tirada Waayeelka",
         phoneInput: "Telefoon",
         emailInput: "Iimayl",
-        languageInput: "Luqad",
         dietInput: "Baahiyaha Cuntada",
         tfapLabel: "Ma u qalmaa TFAP?",
         dailyLabel: "Booqde Maalinle ah?",
@@ -157,7 +154,7 @@ function applyTranslations() {
         zipcodeInput: "zipcodeInput", adultsInput: "adultsInput",
         kidsInput: "kidsInput", seniorsInput: "seniorsInput",
         phoneInput: "phoneInput", emailInput: "emailInput",
-        languageInput: "languageInput", dietInput: "dietInput"
+        dietInput: "dietInput"
     };
     Object.entries(placeholders).forEach(([id, key]) => {
         const el = document.getElementById(id);
@@ -192,6 +189,7 @@ window.showScreen = function (id) {
         el.textContent = "";
         el.className = "screen-message";
     });
+    window.scrollTo({ top: 0, behavior: "instant" });
 };
 
 // Proxy screen back button — resets proxy state before going home
@@ -296,7 +294,7 @@ document.getElementById("familyForm")?.addEventListener("submit", async (e) => {
             annualcertificationdate: todayAsInt(),
             phone: form.Phone.value,
             email: form.Email.value,
-            language: form.Language.value,
+            language: currentLanguage,
             dietaryreq: form.DietaryReq.value,
             isdaily: form.IsDaily.checked
         }])
@@ -308,16 +306,13 @@ document.getElementById("familyForm")?.addEventListener("submit", async (e) => {
         return;
     }
 
-    // Auto check-in on first registration
-    await recordVisit(data.familyid, false);
-
     setMsg("signupMessage", tr("signupSuccess") + data.familyid, "success");
     form.reset();
 
-    // Redirect to check-in after 2 seconds with confirmation message
+    // Redirect to check-in after 2 seconds so they can complete their first visit
     setTimeout(() => {
         showScreen("checkinScreen");
-        setMsg("checkinMessage", tr("signupSuccess") + data.familyid + "  —  " + tr("checkinSuccess"), "success");
+        setMsg("checkinMessage", tr("signupSuccess") + data.familyid, "success");
     }, 2000);
 });
 

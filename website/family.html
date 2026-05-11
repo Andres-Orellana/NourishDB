@@ -12,15 +12,19 @@
         <div class="banner-center">
             <img src="nourish_logo_transparent.png" class="banner-logo" alt="NourishDB">
         </div>
-        <select id="languageSelect" class="banner-lang-select">
-            <option value="en">EN</option>
-            <option value="es">ES</option>
-            <option value="so">SO</option>
-        </select>
+        <div style="width:36px;"></div>
     </div>
 
-    <!-- HOME SCREEN: three stacked path cards -->
+    <!-- HOME SCREEN -->
     <div id="homeScreen" class="screen">
+        <div class="home-lang-wrap">
+            <label for="languageSelect">Language / Idioma / Luqad</label>
+            <select id="languageSelect">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="so">Somali</option>
+            </select>
+        </div>
         <div class="path-cards">
             <button class="path-card card-checkin" onclick="showScreen('checkinScreen')">
                 <div class="card-text">
@@ -83,7 +87,6 @@
                 <input id="seniorsInput" name="NumSeniors" placeholder="Number of Seniors" type="number" required>
                 <input id="phoneInput" name="Phone" placeholder="Phone">
                 <input id="emailInput" name="Email" placeholder="Email" type="email">
-                <input id="languageInput" name="Language" placeholder="Language">
                 <input id="dietInput" name="DietaryReq" placeholder="Dietary Requirements">
 
                 <label id="tfapLabel">

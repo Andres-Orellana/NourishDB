@@ -178,35 +178,75 @@ body {
 .banner-lang-select option { background: var(--nourish-red); color: white; }
 
 /* ===================== */
+/* HOME LANGUAGE SELECT  */
+/* ===================== */
+.home-lang-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 28px 24px 0 24px;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.home-lang-wrap label {
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: bold;
+    letter-spacing: 0.02em;
+    margin: 0;
+}
+
+.home-lang-wrap select {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    font-size: 1rem;
+    color: #222;
+    background: white;
+    cursor: pointer;
+    min-width: 180px;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.home-lang-wrap select:focus {
+    outline: none;
+    border-color: var(--nourish-red);
+}
+
+/* ===================== */
 /* PATH CARDS (home)     */
 /* ===================== */
 .path-cards {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding: 28px 24px;
-    max-width: 560px;
+    gap: 18px;
+    padding: 24px 24px 36px 24px;
+    max-width: 640px;
+    margin: 0 auto;
 }
 
 .path-card {
     width: 100%;
-    padding: 22px 24px;
-    border-radius: 14px;
+    padding: 30px 32px;
+    border-radius: 16px;
     border: none;
     cursor: pointer;
     color: white;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 16px;
     text-align: left;
     transition: transform 0.12s, box-shadow 0.12s;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+    box-shadow: 0 5px 18px rgba(0,0,0,0.14);
 }
 
 .path-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 22px rgba(0,0,0,0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
 }
 
 .card-checkin { background: var(--nourish-red); }
@@ -216,17 +256,17 @@ body {
 .card-text { flex: 1; }
 
 .card-title {
-    font-size: 1.15rem;
+    font-size: 1.3rem;
     font-weight: bold;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 .card-desc {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     opacity: 0.88;
 }
 
-.card-arrow { font-size: 1.4rem; opacity: 0.75; }
+.card-arrow { font-size: 1.7rem; opacity: 0.7; }
 
 /* ===================== */
 /* SCREENS               */
@@ -265,7 +305,8 @@ body {
 
 .screen-body {
     padding: 24px;
-    max-width: 560px;
+    max-width: 640px;
+    margin: 0 auto;
 }
 
 .screen-subtitle {
