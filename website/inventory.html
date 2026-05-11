@@ -13,70 +13,128 @@
         <a href="volunteer.html">Back</a>
     </nav>
 
-    <div class="form-container">
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="add-item">Add Item</button>
+        <button class="tab-btn" data-tab="daily-count">Daily Count</button>
+        <button class="tab-btn" data-tab="add-source">Add Source</button>
+        <button class="tab-btn" data-tab="log-rescue">Log Rescue</button>
+        <button class="tab-btn" data-tab="view-rescues">View Rescues</button>
+    </div>
 
-        <h2>Add Item to Inventory</h2>
+    <!-- Add Item Tab -->
+    <div id="add-item" class="tab-content active">
+        <div class="form-container">
+            <h2>Add Item to Inventory</h2>
+            <form id="inventoryForm">
+                <label for="source">Source Name</label>
+                <select id="source" name="source">
+                    <option value="">Loading sources...</option>
+                </select>
 
-        <form id="inventoryForm">
+                <label for="item-name">Item Name</label>
+                <input type="text" id="item-name" name="item-name" placeholder="Enter item name" required />
 
-            <!-- Source -->
-            <label for="source">Source Name</label>
-            <input
-                type="text"
-                id="source"
-                name="source"
-                placeholder="Enter source name"
-            />
+                <div class="checkbox-group">
+                    <input type="checkbox" id="is-food" name="is-food" />
+                    <label for="is-food">Is this food?</label>
+                </div>
 
-            <!-- Item Name -->
-            <label for="item-name">Item Name</label>
-            <input
-                type="text"
-                id="item-name"
-                name="item-name"
-                placeholder="Enter item name"
-                required
-            />
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
 
-            <!-- Quantity -->
-            <label for="quantity">Quantity</label>
-            <input
-                type="number"
-                id="quantity"
-                name="quantity"
-                min="1"
-                placeholder="Enter quantity"
-                required
-            />
+    <!-- Daily Count Tab -->
+    <div id="daily-count" class="tab-content">
+        <div class="count-container">
+            <h2>End of Day Count</h2>
+            <p class="count-date" id="countDateLabel"></p>
 
-            <!-- Expiration Date -->
-            <label for="expiration-date">Expiration Date</label>
-            <input
-                type="date"
-                id="expiration-date"
-                name="expiration-date"
-            />
-
-            <!-- Food Checkbox -->
-            <div class="checkbox-group">
-                <input
-                    type="checkbox"
-                    id="is-food"
-                    name="is-food"
-                />
-
-                <label for="is-food">
-                    Is this food?
-                </label>
+            <div id="category-view">
+                <p class="count-instructions">Select a category to enter quantities.</p>
+                <div class="category-grid" id="categoryGrid"></div>
             </div>
 
-            <!-- Submit -->
-            <button type="submit">
-                Submit
-            </button>
+            <div id="item-view" class="hidden">
+                <button class="back-btn" id="backToCategories">&#8592; Back to Categories</button>
+                <h3 id="selectedCategoryTitle"></h3>
+                <div id="itemList" class="item-list"></div>
+                <button class="submit-btn" id="submitCount">Save Count</button>
+            </div>
+        </div>
+    </div>
 
-        </form>
+    <!-- Add Source Tab -->
+    <div id="add-source" class="tab-content">
+        <div class="form-container">
+            <h2>Add Source</h2>
+            <form id="sourceForm">
+                <label for="source-name">Source Name</label>
+                <input type="text" id="source-name" placeholder="e.g. Cub Foods" required />
 
+                <div class="checkbox-group">
+                    <input type="checkbox" id="is-rescue-source" />
+                    <label for="is-rescue-source">Is this a rescue source?</label>
+                </div>
+
+                <button type="submit">Add Source</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Log Rescue Tab -->
+    <div id="log-rescue" class="tab-content">
+        <div class="count-container">
+            <h2>Log Food Rescue</h2>
+
+            <!-- Step 1: Pick source + date -->
+            <div id="rescue-step1">
+                <label for="rescue-source">Source</label>
+                <select id="rescue-source" class="rescue-select">
+                    <option value="">Loading sources...</option>
+                </select>
+
+                <label for="rescue-date" style="margin-top:16px;">Date</label>
+                <input type="date" id="rescue-date" class="rescue-date-input" />
+
+                <button class="submit-btn" id="rescueNext" style="margin-top:20px;">Next &#8594;</button>
+            </div>
+
+            <!-- Step 2: Category grid -->
+            <div id="rescue-step2" class="hidden">
+                <div class="rescue-session-header">
+                    <span id="rescueSourceLabel"></span>
+                    <span id="rescueDateLabel"></span>
+                </div>
+                <p class="count-instructions">Select a category to log items.</p>
+                <div class="category-grid" id="rescueCategoryGrid"></div>
+                <button class="new-rescue-btn" id="startNewRescue">&#10003; Done — Start New Rescue</button>
+            </div>
+
+            <!-- Step 3: Items with qty + weight -->
+            <div id="rescue-step3" class="hidden">
+                <button class="back-btn" id="backToRescueCategories">&#8592; Back to Categories</button>
+                <h3 id="rescueCategoryTitle"></h3>
+                <div class="rescue-item-headers">
+                    <span>Item</span>
+                    <span>Qty</span>
+                    <span>Weight (lbs)</span>
+                </div>
+                <div id="rescueItemList" class="item-list"></div>
+                <button class="submit-btn" id="submitRescueCategory">Save Category</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Rescues Tab -->
+    <div id="view-rescues" class="tab-content">
+        <div class="count-container wide-container">
+            <div class="view-rescues-header">
+                <h2>Rescue Log</h2>
+                <button class="refresh-btn" id="refreshRescues">&#8635; Refresh</button>
+            </div>
+            <div id="rescueLog"><p class="count-instructions">Loading rescues...</p></div>
+        </div>
     </div>
 
     <script type="module" src="inventory.js"></script>

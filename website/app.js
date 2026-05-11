@@ -174,7 +174,6 @@ function changeLanguage(language) {
 
     document.getElementById("visitFamilyInput").placeholder = t.visitFamilyInput;
     document.getElementById("dateInput").placeholder = t.dateInput;
-    document.getElementById("weightInput").placeholder = t.weightInput;
 
     document.getElementById("signupSubmitBtn").textContent = t.signupSubmitBtn;
     document.getElementById("proxySubmitBtn").textContent = t.proxySubmitBtn;
@@ -310,8 +309,7 @@ document.getElementById("visitForm").addEventListener("submit", async (e) => {
     const visitData = {
         visitid: generatedVisitID,
         familyid: Number(form.FamilyID.value),
-        date: Number(form.Date.value),
-        totalweight_lbs: Number(form.TotalWeight_lbs.value),
+        date: parseInt(form.Date.value.replace(/-/g, "")),
         proxy: form.Proxy.checked
     };
 

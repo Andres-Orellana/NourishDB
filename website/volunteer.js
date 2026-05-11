@@ -102,8 +102,8 @@ document.getElementById("hoursForm").addEventListener("submit", async (e) => {
         }]);
 
     if (logError) {
-        document.getElementById("message").textContent = "Error logging hours: " + logError.message;
-        document.getElementById("message").className = "error";
+        document.getElementById("dashMessage").textContent = "Error logging hours: " + logError.message;
+        document.getElementById("dashMessage").className = "error";
         return;
     }
 
@@ -117,13 +117,13 @@ document.getElementById("hoursForm").addEventListener("submit", async (e) => {
         .single();
 
     if (updateError) {
-        document.getElementById("message").textContent = "Hours logged but total not updated: " + updateError.message;
-        document.getElementById("message").className = "error";
+        document.getElementById("dashMessage").textContent = "Hours logged but total not updated: " + updateError.message;
+        document.getElementById("dashMessage").className = "error";
     } else {
         currentVolunteer = updatedVol;
-        document.getElementById("totalhoursDisplay").textContent = currentVolunteer.totalhours;
-        document.getElementById("message").textContent = "Hours added successfully!";
-        document.getElementById("message").className = "success";
+        document.getElementById("totalHoursDisplay").textContent = currentVolunteer.totalhours;
+        document.getElementById("dashMessage").textContent = "Hours added successfully!";
+        document.getElementById("dashMessage").className = "success";
         form.reset();
         loadHoursLog();
     }
@@ -163,7 +163,7 @@ function showDashboard() {
     dashboardSection.style.display = "block";
     document.getElementById("volName").textContent = currentVolunteer.name;
     document.getElementById("volIDDisplay").textContent = currentVolunteer.volid;
-    document.getElementById("totalhoursDisplay").textContent = currentVolunteer.totalhours || 0;
+    document.getElementById("totalHoursDisplay").textContent = currentVolunteer.totalhours || 0;
     loadHoursLog();
 }
 

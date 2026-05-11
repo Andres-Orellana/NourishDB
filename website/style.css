@@ -277,7 +277,7 @@ label {
     margin: 12px 0;
 }
 
-#message {
+#message, #dashMessage {
     margin-top: 16px;
     font-weight: bold;
     padding: 12px 16px;
@@ -285,17 +285,17 @@ label {
     min-height: 20px;
 }
 
-#message.success {
+#message.success, #dashMessage.success {
     background: #e8f5e9;
     color: #2e7d32;
 }
 
-#message.error {
+#message.error, #dashMessage.error {
     background: #ffebee;
     color: #c62828;
 }
 
-.volunteer-page #message.success {
+.volunteer-page #message.success, .volunteer-page #dashMessage.success {
     background: #e3f2fd;
     color: #1565c0;
 }
