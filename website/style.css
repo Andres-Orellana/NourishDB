@@ -105,6 +105,7 @@ body {
     white-space: nowrap;
 }
 
+
 .family-page .page-header h1,
 .family-page .back-btn {
     color: #2e7d32;
@@ -408,4 +409,17 @@ label {
 .vol-id-badge {
     font-size: 0.8rem;
     color: #aaa;
+}
+
+.logo {
+    display: block;
+    width: 340px;
+    max-width: 90%;
+    margin: 0 auto 10px auto;
+}
+.main-logo {
+    width: 520px;
+    max-width: 95%;
+    display: block;
+    margin: 0 auto 20px auto;
 }
