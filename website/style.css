@@ -554,7 +554,7 @@ select {
 /* ===================== */
 /* VOLUNTEER DASHBOARD   */
 /* ===================== */
-#dashboardSection { max-width: 560px; padding: 0 32px 32px 32px; }
+#dashboardSection { max-width: 560px; padding: 0 32px 32px 32px; margin: 0 auto; }
 
 .stats-card {
     background: white;
@@ -601,7 +601,24 @@ select {
 
 .signout-btn:hover { border-color: #cc0000; color: #cc0000; }
 
-.vol-greeting { display: flex; align-items: center; justify-content: space-between; padding: 20px 32px 0 32px; }
+.vol-greeting { display: flex; align-items: center; justify-content: space-between; padding: 20px 0 0 0; }
+
+.inventory-link-btn {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+    background-color: #1565c0;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background 0.12s;
+}
+
+.inventory-link-btn:hover { background-color: #0d47a1; }
 .vol-greeting p { color: #333; margin: 0; }
 .vol-id-badge  { font-size: 0.8rem; color: #aaa; }
 

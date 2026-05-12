@@ -16,7 +16,6 @@
         <div class="tabs">
             <button onclick="showAuthTab('signinTab')">Sign In</button>
             <button onclick="showAuthTab('signupTab')">Sign Up</button>
-            <button onclick="window.location.href='inventory.html'">Inventory</button>
         </div>
 
         <section id="signinTab" class="tab">
@@ -51,7 +50,8 @@
             <button class="signout-btn" onclick="signOut()">Sign Out</button>
         </div>
 
-        <div style="padding: 24px 32px 0 32px;">
+        <div style="padding: 24px 0 0 0;">
+            <a href="inventory.html" class="inventory-link-btn">Inventory</a>
             <div class="stats-card">
                 <h2>Total Hours Volunteered</h2>
                 <div class="hours-number" id="totalHoursDisplay">0</div>
