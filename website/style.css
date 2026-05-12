@@ -146,10 +146,10 @@ body {
 .banner-back-btn {
     color: white;
     text-decoration: none;
-    font-size: 1.5rem;
+    font-size: 0.75rem;
     font-weight: bold;
-    width: 36px;
     height: 36px;
+    padding: 0 10px;
     display: flex;
     align-items: center;
     justify-content: center;
