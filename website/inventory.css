@@ -349,6 +349,50 @@ body {
     color: #333;
 }
 
+/* Start/End of Day mode toggle */
+.mode-toggle {
+    display: flex;
+    border: 2px solid #2d6a4f;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.mode-btn {
+    flex: 1;
+    padding: 10px;
+    background-color: white;
+    color: #2d6a4f;
+    border: none;
+    border-radius: 0;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0;
+    transition: background-color 0.15s;
+}
+
+.mode-btn:hover {
+    background-color: #f0f7f4;
+    color: #1b4332;
+}
+
+.mode-btn.active {
+    background-color: #2d6a4f;
+    color: white;
+}
+
+/* Current inventory table */
+.inventory-table td:last-child {
+    font-weight: bold;
+    text-align: right;
+    width: 140px;
+}
+
+.qty-zero {
+    color: #c0392b;
+}
+
 /* New Items category button */
 .new-items-btn {
     border-style: dashed !important;

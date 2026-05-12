@@ -24,9 +24,11 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
         btn.classList.add("active");
         const tab = document.getElementById(btn.dataset.tab);
         tab.classList.add("active");
-        if (btn.dataset.tab === "add-item")    loadSourcesIntoSelect("source");
-        if (btn.dataset.tab === "log-rescue")  loadSourcesIntoDropdown();
-        if (btn.dataset.tab === "view-rescues") loadRescueLog();
+        if (btn.dataset.tab === "add-item")          loadSourcesIntoSelect("source");
+        if (btn.dataset.tab === "log-rescue")        loadSourcesIntoDropdown();
+        if (btn.dataset.tab === "view-rescues")      loadRescueLog();
+        if (btn.dataset.tab === "daily-log")         loadDailyLog();
+        if (btn.dataset.tab === "current-inventory") loadCurrentInventory();
     });
 });
 
@@ -61,6 +63,22 @@ document.getElementById("inventoryForm").addEventListener("submit", async (e) =>
 // ── Daily Count ────────────────────────────────────────────────
 const today = new Date().toISOString().split("T")[0];
 document.getElementById("countDateLabel").textContent = "Date: " + today;
+
+let dailyMode = "start";
+
+document.getElementById("startOfDayBtn").addEventListener("click", () => {
+    dailyMode = "start";
+    document.getElementById("startOfDayBtn").classList.add("active");
+    document.getElementById("endOfDayBtn").classList.remove("active");
+    document.getElementById("countModeLabel").textContent = "Enter quantities at the beginning of the day.";
+});
+
+document.getElementById("endOfDayBtn").addEventListener("click", () => {
+    dailyMode = "end";
+    document.getElementById("endOfDayBtn").classList.add("active");
+    document.getElementById("startOfDayBtn").classList.remove("active");
+    document.getElementById("countModeLabel").textContent = "Enter quantities remaining at the end of the day.";
+});
 
 const categoryGrid    = document.getElementById("categoryGrid");
 const categoryView    = document.getElementById("category-view");
@@ -134,30 +152,74 @@ document.getElementById("backToCategories").addEventListener("click", () => {
 document.getElementById("submitCount").addEventListener("click", async () => {
     const updates = [];
     itemList.querySelectorAll("input[type=number]").forEach(input => {
+        if (input.value === "") return;
         const qty = parseInt(input.value);
-        if (!isNaN(qty) && qty > 0) updates.push({ item_name: input.dataset.item, quantity: qty });
+        if (!isNaN(qty) && qty >= 0) updates.push({ item_name: input.dataset.item, quantity: qty });
     });
     if (updates.length === 0) { alert("Please enter at least one quantity."); return; }
 
+    const todayInt = parseInt(today.replace(/-/g, ""));
     let failed = false;
+
     for (const u of updates) {
+        // Get or create inventory item
         const { data: existing, error: fetchErr } = await supabase
             .from("inventory").select("itemid, itemquantity").eq("itemtype", u.item_name).maybeSingle();
         if (fetchErr) { alert("Error: " + fetchErr.message); failed = true; break; }
 
+        let itemId;
         if (existing) {
+            itemId = existing.itemid;
             const { error: upErr } = await supabase.from("inventory")
-                .update({ itemquantity: u.quantity }).eq("itemid", existing.itemid);
+                .update({ itemquantity: u.quantity }).eq("itemid", itemId);
             if (upErr) { alert("Error: " + upErr.message); failed = true; break; }
         } else {
+            itemId = Math.floor(100000 + Math.random() * 900000);
             const { error: inErr } = await supabase.from("inventory")
-                .insert([{ itemid: Math.floor(100000 + Math.random() * 900000), itemtype: u.item_name, itemquantity: u.quantity }]);
+                .insert([{ itemid: itemId, itemtype: u.item_name, itemquantity: u.quantity }]);
             if (inErr) { alert("Error: " + inErr.message); failed = true; break; }
+        }
+
+        // Find today's DailyStock entry for this item
+        const { data: stockEntry, error: stockFetchErr } = await supabase
+            .from("dailystock")
+            .select("logid, totalquantitystart")
+            .eq("itemid", itemId)
+            .eq("date", todayInt)
+            .maybeSingle();
+        if (stockFetchErr) { alert("Error: " + stockFetchErr.message); failed = true; break; }
+
+        if (dailyMode === "start") {
+            if (stockEntry) {
+                const { error: stockUpErr } = await supabase.from("dailystock")
+                    .update({ totalquantitystart: u.quantity })
+                    .eq("logid", stockEntry.logid);
+                if (stockUpErr) { alert("Error: " + stockUpErr.message); failed = true; break; }
+            } else {
+                const { error: stockInErr } = await supabase.from("dailystock")
+                    .insert([{ logid: Math.floor(100000 + Math.random() * 900000), itemid: itemId, date: todayInt, totalquantitystart: u.quantity }]);
+                if (stockInErr) { alert("Error: " + stockInErr.message); failed = true; break; }
+            }
+        } else {
+            // End of day: calculate taken = start - end (null if no start was recorded)
+            const startQty = stockEntry?.totalquantitystart ?? null;
+            const taken = startQty !== null ? Math.max(0, startQty - u.quantity) : null;
+            if (stockEntry) {
+                const { error: stockUpErr } = await supabase.from("dailystock")
+                    .update({ totalquantityend: u.quantity, dailytotaltaken: taken })
+                    .eq("logid", stockEntry.logid);
+                if (stockUpErr) { alert("Error: " + stockUpErr.message); failed = true; break; }
+            } else {
+                const { error: stockInErr } = await supabase.from("dailystock")
+                    .insert([{ logid: Math.floor(100000 + Math.random() * 900000), itemid: itemId, date: todayInt, totalquantityend: u.quantity }]);
+                if (stockInErr) { alert("Error: " + stockInErr.message); failed = true; break; }
+            }
         }
     }
 
     if (!failed) {
-        alert("Count saved! Inventory updated.");
+        const modeLabel = dailyMode === "start" ? "Start of Day" : "End of Day";
+        alert(`${modeLabel} count saved!`);
         itemList.querySelectorAll("input").forEach(i => i.value = "");
         itemView.classList.add("hidden");
         categoryView.classList.remove("hidden");
@@ -412,3 +474,93 @@ async function loadRescueLog() {
 }
 
 document.getElementById("refreshRescues").addEventListener("click", loadRescueLog);
+
+// ── Daily Log ──────────────────────────────────────────────────
+async function loadDailyLog() {
+    const container = document.getElementById("dailyLogContent");
+    container.innerHTML = "<p class='count-instructions'>Loading...</p>";
+
+    const { data: logs, error } = await supabase
+        .from("dailystock")
+        .select("logid, itemid, date, totalquantitystart, totalquantityend, dailytotaltaken")
+        .order("date", { ascending: false });
+
+    if (error) { container.innerHTML = "<p>Error loading log: " + error.message + "</p>"; return; }
+    if (!logs?.length) { container.innerHTML = "<p class='count-instructions'>No daily logs recorded yet.</p>"; return; }
+
+    const { data: items } = await supabase.from("inventory").select("itemid, itemtype");
+    const itemMap = Object.fromEntries((items || []).map(i => [i.itemid, i.itemtype]));
+
+    const grouped = {};
+    logs.forEach(log => {
+        if (!grouped[log.date]) grouped[log.date] = [];
+        grouped[log.date].push(log);
+    });
+
+    container.innerHTML = "";
+    Object.entries(grouped).sort((a, b) => Number(b[0]) - Number(a[0])).forEach(([date, entries]) => {
+        const d = String(date);
+        const displayDate = d.length === 8 ? `${d.slice(0,4)}-${d.slice(4,6)}-${d.slice(6,8)}` : d;
+
+        const rows = entries.map(e => `
+            <tr>
+                <td>${itemMap[e.itemid] || "—"}</td>
+                <td>${e.totalquantitystart ?? "—"}</td>
+                <td>${e.totalquantityend ?? "—"}</td>
+                <td>${e.dailytotaltaken ?? "—"}</td>
+            </tr>`).join("");
+
+        const card = document.createElement("div");
+        card.className = "rescue-card";
+        card.innerHTML = `
+            <div class="rescue-card-header">
+                <span class="rescue-source-name">${displayDate}</span>
+                <button class="toggle-btn">Show Items</button>
+            </div>
+            <div class="rescue-card-items hidden">
+                <table class="rescue-table">
+                    <thead><tr><th>Item</th><th>Start Qty</th><th>End Qty</th><th>Taken</th></tr></thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            </div>`;
+
+        card.querySelector(".toggle-btn").addEventListener("click", (e) => {
+            const detail = card.querySelector(".rescue-card-items");
+            const btn = e.target;
+            detail.classList.toggle("hidden");
+            btn.textContent = detail.classList.contains("hidden") ? "Show Items" : "Hide Items";
+        });
+
+        container.appendChild(card);
+    });
+}
+
+document.getElementById("refreshDailyLog").addEventListener("click", loadDailyLog);
+
+// ── Current Inventory ──────────────────────────────────────────
+async function loadCurrentInventory() {
+    const container = document.getElementById("currentInventoryContent");
+    container.innerHTML = "<p class='count-instructions'>Loading...</p>";
+
+    const { data: items, error } = await supabase
+        .from("inventory")
+        .select("itemid, itemtype, itemquantity")
+        .order("itemtype");
+
+    if (error) { container.innerHTML = "<p>Error loading inventory: " + error.message + "</p>"; return; }
+    if (!items?.length) { container.innerHTML = "<p class='count-instructions'>No items in inventory yet.</p>"; return; }
+
+    const rows = items.map(item => `
+        <tr>
+            <td>${item.itemtype}</td>
+            <td class="${(item.itemquantity ?? 0) <= 0 ? 'qty-zero' : ''}">${item.itemquantity ?? 0}</td>
+        </tr>`).join("");
+
+    container.innerHTML = `
+        <table class="rescue-table inventory-table">
+            <thead><tr><th>Item</th><th>Current Quantity</th></tr></thead>
+            <tbody>${rows}</tbody>
+        </table>`;
+}
+
+document.getElementById("refreshInventory").addEventListener("click", loadCurrentInventory);

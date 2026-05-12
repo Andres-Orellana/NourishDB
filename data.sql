@@ -7,6 +7,17 @@ CREATE TABLE IF NOT EXISTS Inventory (
     ExpirationDate TEXT
 );
 
+CREATE TABLE IF NOT EXISTS DailyStock (
+    LogID                INTEGER PRIMARY KEY,
+    ItemID               INTEGER,
+    Date                 INTEGER,
+    TotalQuantityStart   INTEGER,
+    TotalQuantityEnd     INTEGER,
+    DailyTotalTaken      INTEGER,
+    FOREIGN KEY (ItemID) 
+        REFERENCES Inventory(ItemID)
+);
+
 CREATE TABLE IF NOT EXISTS Family (
     FamilyID                INTEGER PRIMARY KEY,
     ZipCode                 INTEGER,

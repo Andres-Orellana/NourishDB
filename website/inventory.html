@@ -16,6 +16,8 @@
     <div class="tabs">
         <button class="tab-btn active" data-tab="add-item">Add Item</button>
         <button class="tab-btn" data-tab="daily-count">Daily Count</button>
+        <button class="tab-btn" data-tab="daily-log">Daily Log</button>
+        <button class="tab-btn" data-tab="current-inventory">Current Inventory</button>
         <button class="tab-btn" data-tab="add-source">Add Source</button>
         <button class="tab-btn" data-tab="log-rescue">Log Rescue</button>
         <button class="tab-btn" data-tab="view-rescues">View Rescues</button>
@@ -47,11 +49,16 @@
     <!-- Daily Count Tab -->
     <div id="daily-count" class="tab-content">
         <div class="count-container">
-            <h2>End of Day Count</h2>
+            <h2>Daily Count</h2>
             <p class="count-date" id="countDateLabel"></p>
 
+            <div class="mode-toggle">
+                <button class="mode-btn active" id="startOfDayBtn">Start of Day</button>
+                <button class="mode-btn" id="endOfDayBtn">End of Day</button>
+            </div>
+
             <div id="category-view">
-                <p class="count-instructions">Select a category to enter quantities.</p>
+                <p class="count-instructions" id="countModeLabel">Enter quantities at the beginning of the day.</p>
                 <div class="category-grid" id="categoryGrid"></div>
             </div>
 
@@ -134,6 +141,28 @@
                 <button class="refresh-btn" id="refreshRescues">&#8635; Refresh</button>
             </div>
             <div id="rescueLog"><p class="count-instructions">Loading rescues...</p></div>
+        </div>
+    </div>
+
+    <!-- Daily Log Tab -->
+    <div id="daily-log" class="tab-content">
+        <div class="count-container wide-container">
+            <div class="view-rescues-header">
+                <h2>Daily Log</h2>
+                <button class="refresh-btn" id="refreshDailyLog">&#8635; Refresh</button>
+            </div>
+            <div id="dailyLogContent"><p class="count-instructions">Loading...</p></div>
+        </div>
+    </div>
+
+    <!-- Current Inventory Tab -->
+    <div id="current-inventory" class="tab-content">
+        <div class="count-container wide-container">
+            <div class="view-rescues-header">
+                <h2>Current Inventory</h2>
+                <button class="refresh-btn" id="refreshInventory">&#8635; Refresh</button>
+            </div>
+            <div id="currentInventoryContent"><p class="count-instructions">Loading...</p></div>
         </div>
     </div>
 
