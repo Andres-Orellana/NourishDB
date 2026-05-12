@@ -6,29 +6,80 @@
 </head>
 <body class="family-page">
 
-    <div class="page-header">
-        <a href="index.html" class="back-btn">&larr; Back</a>
-        <h1 id="siteTitle">NourishDB – Family Portal</h1>
+    <!-- BANNER -->
+    <div class="family-banner">
+        <a href="index.html" class="banner-back-btn">&#8592;</a>
+        <div class="banner-center">
+            <img src="nourish_logo_transparent.png" class="banner-logo" alt="NourishDB">
+        </div>
+        <div style="width:36px;"></div>
     </div>
 
-    <div class="page-content">
-
-        <label for="languageSelect">Choose Language:</label>
-        <select id="languageSelect">
-            <option value="en">English</option>
-            <option value="es">Español</option>
-            <option value="so">Somali</option>
-        </select>
-
-        <div class="tabs">
-            <button id="signupTabBtn" onclick="showTab('signup')">Family Sign Up</button>
-            <button id="proxyTabBtn" onclick="showTab('proxy')">Add Proxy</button>
-            <button id="signinTabBtn" onclick="showTab('signin')">Daily Sign In</button>
+    <!-- HOME SCREEN -->
+    <div id="homeScreen" class="screen">
+        <div class="home-lang-wrap">
+            <label for="languageSelect">Language / Idioma / Luqad</label>
+            <select id="languageSelect">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="so">Somali</option>
+            </select>
         </div>
+        <div class="path-cards">
+            <button class="path-card card-checkin" onclick="showScreen('checkinScreen')">
+                <div class="card-text">
+                    <div class="card-title" id="checkinCardTitle">Daily Check-In</div>
+                    <div class="card-desc" id="checkinCardDesc">Already registered? Sign in here</div>
+                </div>
+                <div class="card-arrow">&#8594;</div>
+            </button>
 
-        <section id="signup" class="tab">
-            <h2 id="signupTitle">Family Sign Up</h2>
+            <button class="path-card card-signup" onclick="showScreen('signupScreen')">
+                <div class="card-text">
+                    <div class="card-title" id="signupCardTitle">Family Registration</div>
+                    <div class="card-desc" id="signupCardDesc">New to our pantry? Register here</div>
+                </div>
+                <div class="card-arrow">&#8594;</div>
+            </button>
 
+            <button class="path-card card-proxy" onclick="showScreen('proxyScreen')">
+                <div class="card-text">
+                    <div class="card-title" id="proxyCardTitle">Proxy</div>
+                    <div class="card-desc" id="proxyCardDesc">Picking up for someone else?</div>
+                </div>
+                <div class="card-arrow">&#8594;</div>
+            </button>
+        </div>
+    </div>
+
+    <!-- CHECK-IN SCREEN -->
+    <div id="checkinScreen" class="screen" style="display:none;">
+        <div class="screen-header checkin-header">
+            <button class="screen-back-btn" onclick="showScreen('homeScreen')">&#8592;</button>
+            <h2 id="checkinTitle">Daily Check-In</h2>
+        </div>
+        <div class="screen-body">
+            <form id="checkinForm">
+                <label id="checkinSearchLabel">Family ID or Phone Number</label>
+                <input id="checkinInput" name="SearchInput" placeholder="Family ID or Phone Number" required>
+                <button type="submit" id="checkinBtn">Check In</button>
+            </form>
+            <div class="screen-divider"></div>
+            <div class="not-registered-wrap">
+                <span id="notRegisteredText">Not registered yet?</span>
+                <button class="link-btn" onclick="showScreen('signupScreen')" id="goSignupBtn">Register your family &#8594;</button>
+            </div>
+            <p id="checkinMessage" class="screen-message"></p>
+        </div>
+    </div>
+
+    <!-- SIGN-UP SCREEN -->
+    <div id="signupScreen" class="screen" style="display:none;">
+        <div class="screen-header signup-header">
+            <button class="screen-back-btn" onclick="showScreen('homeScreen')">&#8592;</button>
+            <h2 id="signupTitle">Family Registration</h2>
+        </div>
+        <div class="screen-body">
             <form id="familyForm">
                 <input id="zipcodeInput" name="ZipCode" placeholder="Zip Code" required>
                 <input id="adultsInput" name="NumAdults" placeholder="Number of Adults" type="number" required>
@@ -36,51 +87,53 @@
                 <input id="seniorsInput" name="NumSeniors" placeholder="Number of Seniors" type="number" required>
                 <input id="phoneInput" name="Phone" placeholder="Phone">
                 <input id="emailInput" name="Email" placeholder="Email" type="email">
-                <input id="languageInput" name="Language" placeholder="Language">
                 <input id="dietInput" name="DietaryReq" placeholder="Dietary Requirements">
 
                 <label id="tfapLabel">
-                    TFAP Eligible?
+                    <span id="tfapLabelText">TFAP Eligible?</span>
                     <input name="Eligibility_TFAP" type="checkbox">
                 </label>
-
                 <label id="dailyLabel">
-                    Daily Visitor?
+                    <span id="dailyLabelText">Daily Visitor?</span>
                     <input name="IsDaily" type="checkbox">
                 </label>
 
-                <button id="signupSubmitBtn" type="submit">Sign Up Family</button>
+                <button id="signupSubmitBtn" type="submit">Register Family</button>
             </form>
-        </section>
+            <p id="signupMessage" class="screen-message"></p>
+        </div>
+    </div>
 
-        <section id="proxy" class="tab">
-            <h2 id="proxyTitle">Add Proxy</h2>
+    <!-- PROXY SCREEN -->
+    <div id="proxyScreen" class="screen" style="display:none;">
+        <div class="screen-header proxy-header">
+            <button class="screen-back-btn proxy-back">&#8592;</button>
+            <h2 id="proxyTitle">Proxy Pick-Up</h2>
+        </div>
+        <div class="screen-body">
+            <p id="proxySubtitle" class="screen-subtitle">Picking up for someone else? Enter the family's ID or phone number.</p>
 
-            <form id="proxyForm">
-                <input id="proxyFamilyInput" name="FamilyID" placeholder="Family ID" type="number" required>
-                <input id="proxyNameInput" name="ProxyName" placeholder="Proxy Name" required>
-                <button id="proxySubmitBtn" type="submit">Add Proxy</button>
+            <form id="proxySearchForm">
+                <input name="SearchInput" placeholder="Family ID or Phone Number" required>
+                <button type="submit" id="proxySearchBtn">Search</button>
             </form>
-        </section>
 
-        <section id="signin" class="tab">
-            <h2 id="signinTitle">Daily Sign In</h2>
+            <div id="proxyListSection" style="display:none;">
+                <h3 id="proxyListTitle" class="proxy-list-heading">Select a Proxy</h3>
+                <div id="proxyList" class="proxy-list"></div>
+                <button class="add-proxy-btn" onclick="toggleAddProxy()">+ Add New Proxy</button>
+            </div>
 
-            <form id="visitForm">
-                <input id="visitFamilyInput" name="FamilyID" placeholder="Family ID" type="number" required>
-                <input id="dateInput" name="Date" type="date" required>
+            <div id="addProxySection" class="add-proxy-form-wrap" style="display:none;">
+                <h4 id="addProxyHeading">New Proxy</h4>
+                <form id="addProxyForm">
+                    <input name="ProxyName" placeholder="Full Name" type="text" required>
+                    <button type="submit" id="addProxySubmitBtn">Add &amp; Select</button>
+                </form>
+            </div>
 
-                <label id="proxyPickupLabel">
-                    Proxy Pickup?
-                    <input name="Proxy" type="checkbox">
-                </label>
-
-                <button id="visitSubmitBtn" type="submit">Submit Daily Visit</button>
-            </form>
-        </section>
-
-        <p id="message"></p>
-
+            <p id="proxyMessage" class="screen-message"></p>
+        </div>
     </div>
 
     <script type="module" src="app.js"></script>
